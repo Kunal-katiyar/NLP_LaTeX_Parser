@@ -6,6 +6,7 @@ export default defineConfig({
   srcDir: 'src',
   manifest: {
     name: 'NLP LaTeX Parser',
+    permissions: ["storage"]
   },
   webExt: { disabled: true },
 });
