@@ -1,7 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import reactLogo from '@/assets/react.svg';
 import wxtLogo from '/wxt.svg';
 import './App.css';
+
+// track popup/extension state (if toggled or not) using browser.runtime.connect
+/* 
+useEffect(() => {
+  const popupTogglePort = browser.runtime.connect({
+    name: popupPortConnectionName
+  })
+
+  return () => popupTogglePort.disconnect();
+}, [])
+
+
+*/
 
 function App() {
   const [count, setCount] = useState(0);

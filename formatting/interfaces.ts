@@ -1,0 +1,1 @@
+// same thing as types.ts but for interfaces
