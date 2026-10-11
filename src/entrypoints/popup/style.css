@@ -1,3 +1,17 @@
+@import "tailwindcss";
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -27,8 +41,8 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  min-width: 800px;
+  min-height: 600px;
 }
 
 h1 {
@@ -53,6 +67,21 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+
+.canvas-outer {
+  width: 760px;
+  height: 300px;
+  background-color: #3D3D3D;
+  border-radius: 50px;
+
+  background-image: 
+    linear-gradient(to right, #5e5e5e 1px, transparent 1px),
+    linear-gradient(to bottom, #5e5e5e 1px, transparent 1px);
+    
+  background-size: 27px 27px;
+  background-position: -4px -4px; 
 }
 
 @media (prefers-color-scheme: light) {
