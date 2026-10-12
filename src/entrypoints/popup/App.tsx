@@ -15,6 +15,7 @@ useEffect(() => {
 */
 
 function App() {
+  // console.log("Popup opened")
   return (
     <div>
       <DrawingCanvas />
