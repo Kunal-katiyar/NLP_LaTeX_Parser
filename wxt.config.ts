@@ -12,7 +12,7 @@ export default defineConfig({
   srcDir: 'src',
   manifest: {
     name: 'NLP LaTeX Parser',
-    permissions: ["storage"],
+    permissions: ["storage", "activeTab", "scripting", "tabs"],
     web_accessible_resources: [
       {
         resources: ["pad.injection.js"],

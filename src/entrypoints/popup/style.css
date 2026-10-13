@@ -73,10 +73,27 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.icon {
+  @apply w-[3rem] h-[3rem];
+}
+
+.grabbable {
+  @apply hover:cursor-grab active:cursor-grabbing;
+}
+
+.clickable {
+  @apply hover:cursor-pointer;
+}
 
 .canvas-outer {
-  width: 760px;
-  height: 300px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  height: max(15rem, 100%);
+  min-height: 5rem;
+  max-height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
   background-color: #3D3D3D;
   border-radius: 50px;
 
@@ -99,4 +116,11 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
