@@ -81,6 +81,47 @@ button:focus-visible {
   @apply hover:cursor-grab active:cursor-grabbing;
 }
 
+.main-button::after {
+  content: "";
+  display: block;
+  position: absolute;
+  background-color: #9a9ffc;
+  width: 2rem;
+  height: 2rem;
+  place-self: center;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
+
+}
+
+.main-button > img {
+  position: relative;
+  z-index: 1;
+}
+
+.main-button:hover::after { /*  transition-transform duration-100 ease-in hover:scale-125 */
+  transform: scale(2.5);
+  transition-duration: 400ms;
+  transition-timing-function: ease-in;
+}
+
+.canvas-scroll-area {
+  overflow: auto;
+}
+
+.main-button {
+  position: relative;
+  z-index: 1;
+}
+
+.main-button:hover {
+  overflow: visible;
+}
+
 .clickable {
   @apply hover:cursor-pointer;
 }
