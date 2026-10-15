@@ -15,14 +15,18 @@
     "postinstall": "wxt prepare"
   },
   "dependencies": {
+    "katex": "^0.19.0",
     "motion": "^14.1.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "react-katex": "^3.1.0",
+    "react-sketch-canvas": "^8.0.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@types/react-katex": "^3.0.4",
     "@wxt-dev/module-react": "^1.1.5",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",

@@ -1,4 +1,5 @@
 import DrawingCanvas from "./DrawingCanvas"
+// import LaTeXDisplay from "./LaTeXDisplay.tsx"
 import { motion, useDragControls } from "framer-motion"
 import dragIcon from "@/assets/drag-icon.png"
 import minimizeIcon from "@/assets/minimize-icon.png"
@@ -40,14 +41,15 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
                     setCoords(updatedCoords);
                     void storage.setItem(canvasBasePositionKey, updatedCoords)
                 }}
-                dragControls={dragControls} className="w-[min(100vw,20rem)] max-w-[calc(100vw-1rem)] h-fit flex-row flex-wrap bg-amber-200 p-3 border-2 border-amber-400 rounded-2xl resize overflow-auto absolute z-[2147483647] hide-scrollbar min-w-fit min-h-fit box-border left-0 top-0" dragMomentum={false}>
-                    <div id="options-container" className="w-full h-fit flex flex-row bg-amber-700 mb-1 m-auto content-center">
+                dragControls={dragControls} className="w-[min(100vw,20rem)] max-w-[calc(100vw-1rem)] h-fit flex-row flex-wrap bg-neutral-800 p-3 border-2 border-neutral-900 rounded-2xl resize overflow-auto absolute z-[2147483647] hide-scrollbar min-w-fit min-h-fit box-border left-0 top-0" dragMomentum={false}>
+                    <div id="options-container" className="w-full h-fit flex flex-row mb-1 m-auto content-center">
                         <img src={dragIcon} id="drag-icon" alt="Drag Canvas" draggable={false} 
                         onPointerDown={(event) => { dragControls.start(event); } } className="icon grabbable"/>
                         <img src={minimizeIcon} id="minimize-icon" alt="Minimize Canvas" draggable={false} className="icon clickable" onPointerDown={() => setToggledCanvas(false)}></img>
                     </div>
                     <DrawingCanvas />
                 </motion.div>
+                
             )
             }
         </>
