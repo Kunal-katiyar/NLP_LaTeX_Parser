@@ -7,6 +7,9 @@ export default defineConfig({
     plugins: [
       tailwindcss(),
     ],
+    legacy: {
+      skipWebSocketTokenCheck: true,
+    },
   }),
   modules: ['@wxt-dev/module-react'],
   srcDir: 'src',
