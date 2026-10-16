@@ -2,21 +2,21 @@ import { useState, useEffect, useRef } from 'react';
 import type { ReactSketchCanvasRef } from "react-sketch-canvas";
 import { ReactSketchCanvas } from "react-sketch-canvas";
 import '../entrypoints/popup/style.css';
+import type { DrawingCanvasProps } from '@@/formatting/types';
 
-
-export default function DrawingCanvas() {
+export default function DrawingCanvas({setCanvasRef}: DrawingCanvasProps) {
+    
     // 1. Create a reference to access the canvas API methods
-    const canvasRef = useRef<ReactSketchCanvasRef>(null);
-
+    const canvasRef = useRef<ReactSketchCanvasRef | null>(null);
+    
+    useEffect(() => {
+        setCanvasRef(canvasRef);
+    }, [setCanvasRef])
+    
     // 2. Set up local state for configurations
     const [strokeColor, setStrokeColor] = useState("#FFFFFF");
-    const [eraseMode, setEraseMode] = useState(false);
 
     // Toggle between Pen and Eraser
-    const handleToggleEraser = () => {
-        setEraseMode(!eraseMode);
-        canvasRef.current?.eraseMode(!eraseMode); // Call the built-in eraseMode method
-    };
 
     const handleExport = () => {
         // TypeScript now recognizes the exportImage promise correctly
@@ -36,13 +36,7 @@ export default function DrawingCanvas() {
     return (
         <div className="canvas-outer hide-scrollbar">
             <div style={{ marginBottom: "15px", display: "flex", gap: "10px" }}>
-                <button onClick={handleToggleEraser}>
-                {eraseMode ? "Switch to Pen" : "Switch to Eraser"}
-                </button>
-                <button onClick={() => canvasRef.current?.undo()}>Undo</button>
-                <button onClick={() => canvasRef.current?.redo()}>Redo</button>
-                <button onClick={() => canvasRef.current?.clearCanvas()}>Clear All</button>
-                <button onClick={handleExport}>Export Image</button>
+                {/* <button onClick={handleExport}>Export Image</button> */}
             </div>
             <ReactSketchCanvas
                 ref={canvasRef}

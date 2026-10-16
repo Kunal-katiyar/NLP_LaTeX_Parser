@@ -38,6 +38,9 @@
   min-height: 600px;
 } */
 
+:root { 
+  --options-container-scale: 4.5; /* works fine, no overflow */
+}
 
 a {
   font-weight: 500;
@@ -81,21 +84,63 @@ button:focus-visible {
   @apply hover:cursor-grab active:cursor-grabbing;
 }
 
-.main-button::after {
-  content: "";
-  display: block;
+.inner-buttons {
   position: absolute;
-  background-color: #9a9ffc;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  z-index: 0;
+}
+
+.inner-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
   width: 2rem;
   height: 2rem;
-  place-self: center;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  border-radius: 50%;
-  transition-duration: 500ms;
-  transition-timing-function: ease-out;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  line-height: 0;
+  background: transparent;
+  transform: translate(-50%, -50%);
+  transition: top 400ms ease-out, left 400ms ease-out, background-color 200ms ease;
+  background-color: #535bf2;
+}
 
+.inner-btn .lucide {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+}
+
+.inner-buttons::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: #9a9ffc;
+  transform: translate(-50%, -50%) scale(0);
+  transform-origin: center;
+  transition: transform 400ms ease-out;
+  z-index: -1;
+}
+
+.main-button:hover .inner-buttons::before {
+  transform: translate(-50%, -50%) scale(var(--options-container-scale));
+  transition: transform 400ms ease-in;
+}
+
+.inner-btn:hover {
+  background-color: #242a99;
 }
 
 .main-button > img {
@@ -103,19 +148,50 @@ button:focus-visible {
   z-index: 1;
 }
 
-.main-button:hover::after { /*  transition-transform duration-100 ease-in hover:scale-125 */
-  transform: scale(2.5);
-  transition-duration: 400ms;
-  transition-timing-function: ease-in;
-}
+
 
 .canvas-scroll-area {
-  overflow: auto;
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 1rem;
+  height: 1rem;
+  cursor: nwse-resize;
+  z-index: 10;
+  touch-action: none;
+}
+
+.resize-handle::after {
+  content: "";
+  position: absolute;
+  right: 0.25rem;
+  bottom: 0.25rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid #9a9ffc;
+  border-bottom: 2px solid #9a9ffc;
+}
+
+.drawing-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
 }
 
 .main-button {
   position: relative;
   z-index: 1;
+  width: 3rem;
+  height: 3rem;
 }
 
 .main-button:hover {
@@ -128,13 +204,12 @@ button:focus-visible {
 
 .canvas-outer {
   width: 100%;
-  max-width: 100%;
   min-width: 0;
-  height: max(15rem, 100%);
-  min-height: 5rem;
-  max-height: 100%;
+  height: 100%;
+  min-height: 0;
+  max-width: 100%;
   box-sizing: border-box;
-  overflow: auto;
+  overflow: hidden;
   background-color: #3D3D3D;
   border-radius: 50px;
 
