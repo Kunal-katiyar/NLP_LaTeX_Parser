@@ -10,6 +10,7 @@ import { canvasBasePositionKey, popupStorageKey } from "@@/global.vars"
 import type { Coords } from "@@/formatting/types"
 import { arrangeInCircle, resetInnerPositions } from "@/helpers/helper.functions";
 import type { ReactSketchCanvasRef } from "react-sketch-canvas";
+import LaTeXDisplay from "./LaTeXDisplay";
 
 const defaultCoords: Coords = {
     x: 0,
@@ -85,6 +86,7 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
                     void storage.setItem(canvasBasePositionKey, updatedCoords)
                 }}
                 dragControls={dragControls} className="drawing-panel bg-amber-200 p-3 border-2 border-amber-400 rounded-2xl overflow-visible absolute z-[2147483647] hide-scrollbar min-w-0 min-h-0 box-border left-0 top-0" dragMomentum={false}>
+                    
                     <div id="options-container" className="w-full h-fit flex flex-row bg-amber-700 mb-1 m-auto content-center">
                         <div className="main-button" id="main-btn" onMouseEnter={() => arrangeInCircle()} onMouseLeave={() => resetInnerPositions()}>
                             <img src={dragIcon} id="drag-icon" alt="Drag Canvas" draggable={false} 
@@ -103,6 +105,9 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
                         <DrawingCanvas setCanvasRef={setCanvasRef}/>
                     </div>
                     <div className="resize-handle" onPointerDown={startResize} />
+                    <div className="m-5 flex flex-row justify-between">
+                        <LaTeXDisplay content="\int_0^\infty x^2" />
+                    </div>
                 </motion.div>
                 
             )

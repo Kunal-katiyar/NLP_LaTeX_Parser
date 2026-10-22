@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
-import 'katex/dist/katex.min.css';
 import { InlineMath, BlockMath } from 'react-katex';
+import './componentStyles.css';
 
-
-export default function LaTeXDisplay() {
+export default function LaTeXDisplay({ content }: { content: String }) {
     return (
-        <p>hello</p>
-        //<InlineMath math="\\int_0^\\infty x^2 dx"/>
+        /* <p>hello</p> */
+        <>
+            <BlockMath math={`\\textcolor{black}{${content}}`}/>
+        </>
     )
 }
