@@ -34,6 +34,12 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
         void storage.getItem<Coords>(canvasBasePositionKey).then((savedCoords) => {
             if (savedCoords && Number.isFinite(savedCoords.x) && Number.isFinite(savedCoords.y)) setCoords(savedCoords)
         })
+        
+        const unwatch = storage.watch<Coords>(canvasBasePositionKey, (newCoords) => {
+            if (newCoords && Number.isFinite(newCoords.x) && Number.isFinite(newCoords.y)) setCoords(newCoords)
+        })
+
+        return () => unwatch();
     }, [])
 
     const handleShrinkCanvas = async () => {

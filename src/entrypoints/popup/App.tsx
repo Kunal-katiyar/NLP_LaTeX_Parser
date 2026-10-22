@@ -20,9 +20,14 @@ function App() {
     }
 
     return (
+      <div>
+        <h1>Settings</h1>
         <button type="button" className="bg-amber-950" onClick={toggleCanvas}>
             {isOpen === true ? "Hide canvas" : "Show canvas"}
         </button>
+        <button type="button" onClick={() => { void storage.setItem("local:canvasBasePosition", {x: 0, y: 0})
+}}>Respawn Canvas</button>
+      </div>
     )
 }
 
