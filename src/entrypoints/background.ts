@@ -1,29 +1,14 @@
 import { storage } from "wxt/utils/storage";
 import { popupStorageKey } from "@@/global.vars";
 
-export default defineBackground( async () => {
-    try {
-        await storage.setItem(popupStorageKey, false);
-    } catch (error) {
-        console.error(`Error creating ${popupStorageKey} key in storage!`);
-        return;
-    }
+export default defineBackground(() => {
+    browser.action.onClicked.addListener(async (tab) => {
+        try {
+            const isOpen = await storage.getItem<boolean>(popupStorageKey)
 
-    browser.runtime.onConnect.addListener(async (port) => {
-        if (port.name === 'popup-tracker') {
-            try {
-                await storage.setItem(popupStorageKey, true);
-            } catch (error) {
-                console.error("Error setting storage state! (isPopupOpen: true)")
-            }
-
-        port.onDisconnect.addListener(async () => {
-            try {
-                await storage.setItem(popupStorageKey, false);
-            } catch (error) {
-                console.error("Error setting storage state! (isPopupOpen: false)")
-            }
-        });
+            await storage.setItem(popupStorageKey, isOpen !== true)
+        } catch (error) {
+            console.error("Error toggling canvas visibility", error)
         }
-    });
+    })
 });

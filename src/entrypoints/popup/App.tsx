@@ -1,13 +1,27 @@
-import './style.css';
-// track popup/extension state (if toggled or not) using browser.runtime.connect
+import "./style.css"
+import { useEffect, useState } from "react"
+import { popupStorageKey } from "@@/global.vars"
+import { storage } from "wxt/utils/storage"
 
 function App() {
-  return (
-    <></>
-    // <div>
-    //   <DrawingCanvas />
-    // </div>
-  );
+    const [isOpen, setIsOpen] = useState(false)
+
+    useEffect(() => {
+        void storage.getItem<boolean>(popupStorageKey).then((value) => {setIsOpen(value === true)})
+    }, [])
+
+    async function toggleCanvas() {
+        const nextValue = !isOpen
+
+        await storage.setItem(popupStorageKey, nextValue)
+        setIsOpen(nextValue)
+    }
+
+    return (
+        <button type="button" className="bg-amber-950" onClick={toggleCanvas}>
+            {isOpen ? "Hide canvas" : "Show canvas"}
+        </button>
+    )
 }
 
-export default App;
+export default App

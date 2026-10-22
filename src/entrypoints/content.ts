@@ -13,7 +13,10 @@ export default defineContentScript({
     matches: ["*://*/*"],
 
     main() {
-        if (document.getElementById("latex-parser-root")) return
+        // void storage.setItem("local:canvasBasePosition", {x: 0, y: 0})
+        const canvasExists = document.getElementById("latex-parser-root")
+        if (canvasExists) return
+
         const rootElement = document.createElement("div")
         rootElement.id = "latex-parser-root"
         document.body.appendChild(rootElement)

@@ -6,7 +6,7 @@ import dragIcon from "@/assets/drag-icon.png"
 import minimizeIcon from "@/assets/minimize-icon.png"
 import { useState, useEffect } from "react"
 import { storage } from "wxt/utils/storage"
-import { canvasBasePositionKey } from "@@/global.vars"
+import { canvasBasePositionKey, popupStorageKey } from "@@/global.vars"
 import type { Coords } from "@@/formatting/types"
 import { arrangeInCircle, resetInnerPositions } from "@/helpers/helper.functions";
 import type { ReactSketchCanvasRef } from "react-sketch-canvas";
@@ -35,8 +35,14 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
         })
     }, [])
 
+    const handleShrinkCanvas = async () => {
+        await storage.setItem(popupStorageKey, false);
+        setToggledCanvas(false);
+    }
+
     useEffect(() => {
         if (popupStatus) setToggledCanvas(true);
+        else setToggledCanvas(false);
     }, [popupStatus])
 
     const startResize = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -67,7 +73,7 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
 
     return (
         <>
-            {toggledCanvas && (
+            {popupStatus && toggledCanvas && (
                 <motion.div drag dragListener={false} style={{x: coords.x, y: coords.y, width: size.width, height: size.height}} 
                 onDragEnd={(e, info) => {
                     const updatedCoords = {
@@ -86,7 +92,7 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
                             <div className="inner-buttons">
                                 <button className="inner-btn" id="redo-action-btn" onClick={() => canvasRef?.current?.redo()}><Redo/></button>
                                 <button className="inner-btn" id="clear-canvas-btn" onClick={() => canvasRef?.current?.resetCanvas()}><Trash/></button>
-                                <button className="inner-btn" id="shrink-canvas-btn" onClick={() => setToggledCanvas(false)}><Shrink/></button>
+                                <button className="inner-btn" id="shrink-canvas-btn" onClick={async () => handleShrinkCanvas()}><Shrink/></button>
                                 <button className="inner-btn" id="undo-action-btn" onClick={() => canvasRef?.current?.undo()}><Undo/></button>
                                 <button className="inner-btn" id="pen-mode-btn" onClick={() => canvasRef?.current?.eraseMode(false)}><Pen/></button>
                                 <button className="inner-btn" id="eraser-mode-btn" onClick={() => canvasRef?.current?.eraseMode(true)}><Eraser/></button>
