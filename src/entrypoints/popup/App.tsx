@@ -11,7 +11,9 @@ function App() {
     }, [])
 
     async function toggleCanvas() {
-        const nextValue = !isOpen
+        const currentValue = await storage.getItem<boolean>(popupStorageKey)
+
+        const nextValue = currentValue !== true
 
         await storage.setItem(popupStorageKey, nextValue)
         setIsOpen(nextValue)
@@ -19,7 +21,7 @@ function App() {
 
     return (
         <button type="button" className="bg-amber-950" onClick={toggleCanvas}>
-            {isOpen ? "Hide canvas" : "Show canvas"}
+            {isOpen === true ? "Hide canvas" : "Show canvas"}
         </button>
     )
 }

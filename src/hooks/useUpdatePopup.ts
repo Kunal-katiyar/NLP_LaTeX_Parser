@@ -3,15 +3,22 @@ import { useState, useEffect } from 'react';
 import { storage } from 'wxt/utils/storage';
 
 export function usePopupStatus() {
-  const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false)
 
-  useEffect(() => {
-    void storage.getItem<boolean>(popupStorageKey).then((val) => { setIsOpen(!!val) });
+    useEffect(() => {
+        void storage.getItem<boolean>(popupStorageKey).then((value) => {
+            setIsOpen(value === true)
+        })
 
-    const unwatch = storage.watch<boolean>(popupStorageKey, (newValue) => { setIsOpen(!!newValue) });
+        const unwatch = storage.watch<boolean>(
+            popupStorageKey,
+            (newValue) => {
+                setIsOpen(newValue === true)
+            },
+        )
 
-    return () => unwatch();
-  }, []);
+        return () => unwatch()
+    }, [])
 
-  return isOpen;
+    return isOpen
 }
