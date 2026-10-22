@@ -1,2 +1,0 @@
-# This is going to have the definition of the lightweight CNN model for the NLP LaTeX Parser project  
-# It will include the architecture, forward pass, and any necessary helper functions for the model
