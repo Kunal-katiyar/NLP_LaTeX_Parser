@@ -192,10 +192,12 @@ button:focus-visible {
 }
 
 .main-button {
-  position: relative;
   z-index: 1;
   width: 3rem;
   height: 3rem;
+  top: 0;
+  left: 0;
+  position: absolute;
 }
 
 .main-button:hover {
@@ -215,14 +217,22 @@ button:focus-visible {
   box-sizing: border-box;
   overflow: hidden;
   background-color: #3D3D3D;
-  border-radius: 50px;
+  border-radius: 16px;
 
   background-image: 
     linear-gradient(to right, #5e5e5e 1px, transparent 1px),
     linear-gradient(to bottom, #5e5e5e 1px, transparent 1px);
     
   background-size: 27px 27px;
-  background-position: -4px -4px; 
+  background-position: -4px -4px;
+}
+
+span.katex .katex-html {
+  display: none;
+}
+
+.katex {
+  font-size: 1.8em !important;
 }
 
 @media (prefers-color-scheme: light) {

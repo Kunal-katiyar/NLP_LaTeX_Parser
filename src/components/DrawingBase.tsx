@@ -91,20 +91,18 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
                     setCoords(updatedCoords);
                     void storage.setItem(canvasBasePositionKey, updatedCoords)
                 }}
-                dragControls={dragControls} className="drawing-panel bg-amber-200 p-3 border-2 border-amber-400 rounded-2xl overflow-visible absolute z-[2147483647] hide-scrollbar min-w-0 min-h-0 box-border left-0 top-0" dragMomentum={false}>
-                    
-                    <div id="options-container" className="w-full h-fit flex flex-row bg-amber-700 mb-1 m-auto content-center">
-                        <div className="main-button" id="main-btn" onMouseEnter={() => arrangeInCircle()} onMouseLeave={() => resetInnerPositions()}>
-                            <img src={dragIcon} id="drag-icon" alt="Drag Canvas" draggable={false} 
-                            onPointerDown={(event) => { dragControls.start(event); } } className="icon grabbable hover:bg-amber-300 rounded-3xl p-1 bg-amber-100"/>
-                            <div className="inner-buttons">
-                                <button className="inner-btn" id="redo-action-btn" onClick={() => canvasRef?.current?.redo()}><Redo/></button>
-                                <button className="inner-btn" id="clear-canvas-btn" onClick={() => canvasRef?.current?.resetCanvas()}><Trash/></button>
-                                <button className="inner-btn" id="shrink-canvas-btn" onClick={async () => handleShrinkCanvas()}><Shrink/></button>
-                                <button className="inner-btn" id="undo-action-btn" onClick={() => canvasRef?.current?.undo()}><Undo/></button>
-                                <button className="inner-btn" id="pen-mode-btn" onClick={() => canvasRef?.current?.eraseMode(false)}><Pen/></button>
-                                <button className="inner-btn" id="eraser-mode-btn" onClick={() => canvasRef?.current?.eraseMode(true)}><Eraser/></button>
-                            </div>
+                dragControls={dragControls} className="drawing-panel bg-amber-200 p-1 border-2 border-amber-400 rounded-2xl overflow-visible absolute z-[2147483647] hide-scrollbar min-w-0 min-h-0 box-border left-0 top-0" dragMomentum={false}>
+                    <div className="main-button -translate-x-1/2 -translate-y-1/2" id="main-btn" onMouseEnter={() => arrangeInCircle()} onMouseLeave={() => resetInnerPositions()}>
+                        <img src={dragIcon} id="drag-icon" alt="Drag Canvas" draggable={false} 
+                        onPointerDown={(event) => { dragControls.start(event); } } className="icon grabbable hover:bg-amber-300 rounded-3xl p-1 bg-amber-100
+                        absolute"/>
+                        <div className="inner-buttons">
+                            <button className="inner-btn" id="redo-action-btn" onClick={() => canvasRef?.current?.redo()}><Redo/></button>
+                            <button className="inner-btn" id="clear-canvas-btn" onClick={() => canvasRef?.current?.resetCanvas()}><Trash/></button>
+                            <button className="inner-btn" id="shrink-canvas-btn" onClick={async () => handleShrinkCanvas()}><Shrink/></button>
+                            <button className="inner-btn" id="undo-action-btn" onClick={() => canvasRef?.current?.undo()}><Undo/></button>
+                            <button className="inner-btn" id="pen-mode-btn" onClick={() => canvasRef?.current?.eraseMode(false)}><Pen/></button>
+                            <button className="inner-btn" id="eraser-mode-btn" onClick={() => canvasRef?.current?.eraseMode(true)}><Eraser/></button>
                         </div>
                     </div>
                     <div className="canvas-scroll-area">
