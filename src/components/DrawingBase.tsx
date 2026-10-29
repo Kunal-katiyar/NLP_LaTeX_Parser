@@ -79,7 +79,7 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
     };
 
     return (
-        <>
+        <div className="popup-container">
             {popupStatus && toggledCanvas && (
                 <motion.div drag dragListener={false} style={{x: coords.x, y: coords.y, width: size.width, height: size.height}} 
                 onDragEnd={(e, info) => {
@@ -91,31 +91,29 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
                     setCoords(updatedCoords);
                     void storage.setItem(canvasBasePositionKey, updatedCoords)
                 }}
-                dragControls={dragControls} className="drawing-panel bg-amber-200 p-1 border-2 border-amber-400 rounded-2xl overflow-visible absolute z-[2147483647] hide-scrollbar min-w-0 min-h-0 box-border left-0 top-0" dragMomentum={false}>
+                dragControls={dragControls} className="drawing-panel hide-scrollbar" dragMomentum={false}>
                     <div className="main-button -translate-x-1/2 -translate-y-1/2" id="main-btn" onMouseEnter={() => arrangeInCircle()} onMouseLeave={() => resetInnerPositions()}>
                         <img src={dragIcon} id="drag-icon" alt="Drag Canvas" draggable={false} 
-                        onPointerDown={(event) => { dragControls.start(event); } } className="icon grabbable hover:bg-amber-300 rounded-3xl p-1 bg-amber-100
-                        absolute"/>
+                        onPointerDown={(event) => { dragControls.start(event); } } className="icon grabbable drag-icon"/>
                         <div className="inner-buttons">
-                            <button className="inner-btn" id="redo-action-btn" onClick={() => canvasRef?.current?.redo()}><Redo/></button>
-                            <button className="inner-btn" id="clear-canvas-btn" onClick={() => canvasRef?.current?.resetCanvas()}><Trash/></button>
-                            <button className="inner-btn" id="shrink-canvas-btn" onClick={async () => handleShrinkCanvas()}><Shrink/></button>
-                            <button className="inner-btn" id="undo-action-btn" onClick={() => canvasRef?.current?.undo()}><Undo/></button>
-                            <button className="inner-btn" id="pen-mode-btn" onClick={() => canvasRef?.current?.eraseMode(false)}><Pen/></button>
-                            <button className="inner-btn" id="eraser-mode-btn" onClick={() => canvasRef?.current?.eraseMode(true)}><Eraser/></button>
+                            <button className="inner-btn" id="redo-action-btn" onClick={() => canvasRef?.current?.redo()}><Redo color="#ffffff"/></button>
+                            <button className="inner-btn" id="clear-canvas-btn" onClick={() => canvasRef?.current?.resetCanvas()}><Trash color="#ffffff"/></button>
+                            <button className="inner-btn" id="shrink-canvas-btn" onClick={async () => handleShrinkCanvas()}><Shrink color="#ffffff"/></button>
+                            <button className="inner-btn" id="undo-action-btn" onClick={() => canvasRef?.current?.undo()}><Undo color="#ffffff"/></button>
+                            <button className="inner-btn" id="pen-mode-btn" onClick={() => canvasRef?.current?.eraseMode(false)}><Pen color="#ffffff"/></button>
+                            <button className="inner-btn" id="eraser-mode-btn" onClick={() => canvasRef?.current?.eraseMode(true)}><Eraser color="#ffffff"/></button>
                         </div>
                     </div>
                     <div className="canvas-scroll-area">
                         <DrawingCanvas setCanvasRef={setCanvasRef}/>
                     </div>
                     <div className="resize-handle" onPointerDown={startResize} />
-                    <div className="m-5 flex flex-row justify-between">
-                        <LaTeXDisplay content="\int_0^\infty x^2" />
-                    </div>
+                    <LaTeXDisplay content="\int_0^\infty x^2" />
+
                 </motion.div>
                 
             )
             }
-        </>
+        </div>
     )
 }

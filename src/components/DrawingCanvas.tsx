@@ -6,17 +6,15 @@ import type { DrawingCanvasProps } from '@@/formatting/types';
 
 export default function DrawingCanvas({setCanvasRef}: DrawingCanvasProps) {
     
-    // 1. Create a reference to access the canvas API methods
     const canvasRef = useRef<ReactSketchCanvasRef | null>(null);
-    
+    const [strokeColor, setStrokeColor] = useState("#FFFFFF");
     useEffect(() => {
         setCanvasRef(canvasRef);
     }, [setCanvasRef])
     
     // 2. Set up local state for configurations
-    const [strokeColor, setStrokeColor] = useState("#FFFFFF");
+    
 
-    // Toggle between Pen and Eraser
     const handleExportInkML = async () => {
         if (!canvasRef.current) return;
 
@@ -74,10 +72,11 @@ export default function DrawingCanvas({setCanvasRef}: DrawingCanvasProps) {
                     strokeWidth={4}
                     eraserWidth={20}
                     canvasColor="transparent"
-                    style={{ border: "none", marginTop: "45px" }}
+                    style={{ border: "none" }}
                 />
+                
             </div>
-            <button onClick={handleExportInkML}>Click to export!</button>
+            
         </>
     )
 }

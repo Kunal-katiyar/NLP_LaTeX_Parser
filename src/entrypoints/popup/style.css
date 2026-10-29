@@ -38,6 +38,7 @@
   min-height: 600px;
 } */
 
+
 :root { 
   --options-container-scale: 4.5; /* works fine, no overflow */
 }
@@ -84,6 +85,17 @@ button:focus-visible {
   @apply hover:cursor-grab active:cursor-grabbing;
 }
 
+.drag-icon {
+  border-radius: 24px;
+  padding: 4px;
+  position: absolute;
+  background-color: #fef3c6;
+}
+
+.drag-icon:hover {
+  background-color: oklch(87.9% 0.169 91.605);
+}
+
 .inner-buttons {
   position: absolute;
   inset: 0;
@@ -108,7 +120,7 @@ button:focus-visible {
   line-height: 0;
   background: transparent;
   transform: translate(-50%, -50%);
-  transition: top 400ms ease-out, left 400ms ease-out, background-color 200ms ease;
+  transition: top 200ms ease-out, left 200ms ease-out, background-color 200ms ease;
   background-color: #535bf2;
 }
 
@@ -135,7 +147,7 @@ button:focus-visible {
 }
 
 .inner-buttons .inner-btn {
-  transition-delay: calc(sibling-index() * 75ms);
+  transition-delay: calc(sibling-index() * 40ms);
 }
 
 .main-button:hover .inner-buttons::before {
@@ -178,10 +190,10 @@ button:focus-visible {
   position: absolute;
   right: 0.25rem;
   bottom: 0.25rem;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-right: 2px solid #9a9ffc;
-  border-bottom: 2px solid #9a9ffc;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-right: 3px solid #9a9ffc;
+  border-bottom: 3px solid #9a9ffc;
 }
 
 .drawing-panel {
@@ -189,6 +201,27 @@ button:focus-visible {
   flex-direction: column;
   min-width: 0;
   min-height: 0;
+  background-color: #525252;
+  padding: 7px;
+  overflow: visible;
+  position: absolute;
+  z-index: 2147483647;
+
+  min-width: 0px;
+  min-height: 0px;
+
+  left: 0;
+  top: 0;
+
+  border-radius: 16px;
+  border-color: oklch(57.951% 0.00007 271.152);
+  border-width: 3px;
+
+  box-sizing: border-box;
+}
+
+.popup-container {
+  all: revert;
 }
 
 .main-button {
@@ -220,11 +253,14 @@ button:focus-visible {
   border-radius: 16px;
 
   background-image: 
-    linear-gradient(to right, #5e5e5e 1px, transparent 1px),
-    linear-gradient(to bottom, #5e5e5e 1px, transparent 1px);
+    linear-gradient(to right, #616161 1px, transparent 1px),
+    linear-gradient(to bottom, #616161 1px, transparent 1px);
     
   background-size: 27px 27px;
   background-position: -4px -4px;
+  position: relative;
+  padding: 0;
+  margin: 0;
 }
 
 span.katex .katex-html {
@@ -233,6 +269,50 @@ span.katex .katex-html {
 
 .katex {
   font-size: 1.8em !important;
+}
+
+.latex-wrapper {
+  transition: all 0.3s ease-in-out;
+}
+
+.latex-wrapper:hover {
+  transform: scale(1.02);
+}
+
+.latex-tooltip {
+  visibility: hidden;
+  opacity: 0;
+  width: 160px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 6px 0;
+  position: absolute;
+  z-index: 1;
+  font-size: 14px;
+  
+  bottom: 125%; 
+  left: 50%;
+  transform: translateX(-50%);
+  
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.latex-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+.latex-wrapper:hover .latex-tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 
 @media (prefers-color-scheme: light) {
@@ -245,6 +325,19 @@ span.katex .katex-html {
   }
   button {
     background-color: #f9f9f9;
+  }
+  .drawing-panel {
+    background-color: #d2d2d2;
+    border-color: oklch(78.261% 0.00009 271.152);
+  }
+
+  .canvas-outer {
+    background-color: #ffffff;
+    background-image: 
+      linear-gradient(to right, #cfcfcf 1px, transparent 1px),
+      linear-gradient(to bottom, #cfcfcf 1px, transparent 1px);
+    border-color: #676767;
+    border-width: 1px;
   }
 }
 

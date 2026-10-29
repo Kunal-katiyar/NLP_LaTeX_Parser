@@ -1,4 +1,4 @@
-import "./style.css"
+import "./App.css"
 import { useEffect, useState } from "react"
 import { popupStorageKey } from "@@/global.vars"
 import { storage } from "wxt/utils/storage"
