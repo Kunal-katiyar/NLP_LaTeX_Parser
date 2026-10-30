@@ -2,6 +2,7 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import DrawingBase from "@/components/DrawingBase"
 import { usePopupStatus } from "@/hooks/useUpdatePopup"
+import cssStyles from './popup/style.css?inline';
 
 function ContentRoot() {
     const isPopupOpen = usePopupStatus()
@@ -19,9 +20,14 @@ export default defineContentScript({
 
         const rootElement = document.createElement("div")
         rootElement.id = "latex-parser-root"
-        document.body.appendChild(rootElement)
+        const shadowRoot = rootElement.attachShadow({ mode: 'open' });
+        document.body.appendChild(rootElement);
 
-        ReactDOM.createRoot(rootElement).render(
+        const styleElement = document.createElement("style");
+        styleElement.textContent = cssStyles;
+        shadowRoot.appendChild(styleElement);
+
+        ReactDOM.createRoot(shadowRoot).render(
             React.createElement(React.StrictMode, null,
                 React.createElement("div", null,
                     React.createElement(ContentRoot),

@@ -1,6 +1,7 @@
 
 function getCanvasButtons() {
-    const main_button = document.getElementById("main-btn");
+    const main_button = getPopupElemByID('main-btn');
+
     if (!main_button) return null;
     const inner_btns = main_button.querySelectorAll<HTMLElement>(".inner-btn")
     if (!inner_btns || (inner_btns.length == 0)) return null;
@@ -9,7 +10,9 @@ function getCanvasButtons() {
 
 export function arrangeInCircle() {
     const buttons = getCanvasButtons();
-    if (!buttons) return;
+    if (!buttons) {
+        return;
+    }
 
     const {main_button, inner_btns} = buttons;
     const total = inner_btns.length;
@@ -41,4 +44,11 @@ export function resetInnerPositions() {
         btn.style.left = `${centerX}px`;
         btn.style.top = `${centerY}px`;
     });
+}
+
+
+export function getPopupElemByID(id: String) {
+    const hostElement = document.getElementById('latex-parser-root');
+    const elem = hostElement?.shadowRoot?.querySelector('#' + id) as HTMLElement;
+    return elem;
 }
