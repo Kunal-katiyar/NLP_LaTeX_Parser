@@ -75,7 +75,7 @@ export default function DrawingCanvas({setCanvasRef}: DrawingCanvasProps) {
 
     return (
         <>
-            <div className="canvas-outer hide-scrollbar">
+            <div className="canvas-outer hide-scrollbar" id='canvas-outer'>
                 <ReactSketchCanvas
                     ref={canvasRef}
                     width="100%"

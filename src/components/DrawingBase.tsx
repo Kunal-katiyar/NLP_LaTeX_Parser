@@ -4,6 +4,8 @@ import { motion, useDragControls } from "framer-motion"
 import { Trash, Undo, Redo, Eraser, Pen, Shrink } from 'lucide-react';
 import dragIcon from "@/assets/drag-icon.png"
 import minimizeIcon from "@/assets/minimize-icon.png"
+import inkPenUrl from "@/assets/ink-pen.svg?url"
+import eraserUrl from "@/assets/eraser-icon-32.png?url"
 import { useState, useEffect } from "react"
 import { storage } from "wxt/utils/storage"
 import { canvasBasePositionKey, popupStorageKey } from "@@/global.vars"
@@ -30,6 +32,36 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
     const [canvasRef, setCanvasRef] = useState<React.RefObject<ReactSketchCanvasRef | null> | null>(null);
     // const [eraseMode, setEraseMode] = useState(false);
 
+    const setCanvasCursor = (cursor: string) => {
+        const canvas = document.getElementById("latex-parser-root")?.shadowRoot?.getElementById("canvas-outer");
+        if (!canvas) return;
+
+        canvas.style.cursor = cursor;
+        canvas.querySelectorAll("*").forEach((element) => {
+            if (element instanceof HTMLElement || element instanceof SVGElement) {
+                element.style.cursor = cursor;
+            }
+        });
+    };
+
+    const enablePenCursor = () => {
+        const canvas = document.getElementById("latex-parser-root")?.shadowRoot?.getElementById("canvas-outer");
+        if (!canvas) return;
+        const cc = canvas.classList;
+        if (cc.contains("erasing")) cc.remove("erasing")
+        if (!cc.contains("writing")) cc.add("writing")
+        setCanvasCursor(`url("${inkPenUrl}") 10 20, auto`);
+    }
+
+    const enableEraserCursor = () => {
+        const canvas = document.getElementById("latex-parser-root")?.shadowRoot?.getElementById("canvas-outer");
+        if (!canvas) return;
+        const cc = canvas.classList;
+        if (cc.contains("writing")) cc.remove("writing")
+        if (!cc.contains("erasing")) cc.add("erasing")
+        setCanvasCursor(`url("${eraserUrl}") 10 20, auto`);
+    }
+
     useEffect(() => {
         void storage.getItem<Coords>(canvasBasePositionKey).then((savedCoords) => {
             if (savedCoords && Number.isFinite(savedCoords.x) && Number.isFinite(savedCoords.y)) setCoords(savedCoords)
@@ -41,6 +73,10 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
 
         return () => unwatch();
     }, [])
+
+    useEffect(() => {
+        if (popupStatus && toggledCanvas) enablePenCursor();
+    }, [popupStatus, toggledCanvas]);
 
     const handleShrinkCanvas = async () => {
         await storage.setItem(popupStorageKey, false);
@@ -100,8 +136,8 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
                             <button className="inner-btn" id="clear-canvas-btn" onClick={() => canvasRef?.current?.resetCanvas()}><Trash color="#ffffff"/></button>
                             <button className="inner-btn" id="shrink-canvas-btn" onClick={async () => handleShrinkCanvas()}><Shrink color="#ffffff"/></button>
                             <button className="inner-btn" id="undo-action-btn" onClick={() => canvasRef?.current?.undo()}><Undo color="#ffffff"/></button>
-                            <button className="inner-btn" id="pen-mode-btn" onClick={() => canvasRef?.current?.eraseMode(false)}><Pen color="#ffffff"/></button>
-                            <button className="inner-btn" id="eraser-mode-btn" onClick={() => canvasRef?.current?.eraseMode(true)}><Eraser color="#ffffff"/></button>
+                            <button className="inner-btn" id="pen-mode-btn" onClick={() => { canvasRef?.current?.eraseMode(false); enablePenCursor()} }><Pen color="#ffffff"/></button>
+                            <button className="inner-btn" id="eraser-mode-btn" onClick={() => { canvasRef?.current?.eraseMode(true); enableEraserCursor()} }><Eraser color="#ffffff"/></button>
                         </div>
                     </div>
                     <div className="canvas-scroll-area">
