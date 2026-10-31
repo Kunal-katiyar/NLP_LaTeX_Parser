@@ -3,6 +3,7 @@ import type { ReactSketchCanvasRef, CanvasPath } from "react-sketch-canvas";
 import { ReactSketchCanvas } from "react-sketch-canvas";
 import '../entrypoints/popup/style.css';
 import type { DrawingCanvasProps } from '@@/formatting/types';
+import { strokeColorKey } from "@@/global.vars"
 
 export default function DrawingCanvas({setCanvasRef}: DrawingCanvasProps) {
     
@@ -11,6 +12,16 @@ export default function DrawingCanvas({setCanvasRef}: DrawingCanvasProps) {
     useEffect(() => {
         setCanvasRef(canvasRef);
     }, [setCanvasRef])
+
+    useEffect(() => {
+        storage.getItem<string>(strokeColorKey).then((val) => {
+            if (val !== null) setStrokeColor(val);
+        });
+
+        const unwatch = storage.watch<string>(strokeColorKey, (newValue, oldValue) => {
+            setStrokeColor(newValue ?? "#FFFFFF");
+        });
+    }, []);
     
     // 2. Set up local state for configurations
     
@@ -70,6 +81,7 @@ export default function DrawingCanvas({setCanvasRef}: DrawingCanvasProps) {
                     width="100%"
                     height="100%"
                     strokeWidth={4}
+                    strokeColor={strokeColor}
                     eraserWidth={20}
                     canvasColor="transparent"
                     style={{ border: "none" }}
