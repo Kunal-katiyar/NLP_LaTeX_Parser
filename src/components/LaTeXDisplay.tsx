@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { InlineMath, BlockMath } from 'react-katex';
 import useDarkMode from "@/hooks/useDarkMode.ts"
 
+
+
 export default function LaTeXDisplay({ content }: { content: string }) {
     const isDark = useDarkMode();
     const textColor = isDark ? 'white' : 'black';
@@ -17,9 +19,11 @@ export default function LaTeXDisplay({ content }: { content: string }) {
         }
     };
     
+    
+
     return (
         /* <p>hello</p> */
-        <div onClick={copyToClipboard} className="mt-4 mb-4 flex justify-center">
+        <div onClick={copyToClipboard} className="mt-4 mb-4 flex justify-center items-center min-h-[70px]">
             <div className="latex-wrapper">
                 <BlockMath math={`\\textcolor{textColor}{${content}}`}/>
                 <span className="latex-tooltip">Click to copy LaTeX</span>

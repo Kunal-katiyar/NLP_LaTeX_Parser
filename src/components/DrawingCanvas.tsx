@@ -5,12 +5,17 @@ import '../entrypoints/popup/style.css';
 import type { DrawingCanvasProps } from '@@/formatting/types';
 import { strokeColorKey } from "@@/global.vars"
 
-export default function DrawingCanvas({setCanvasRef}: DrawingCanvasProps) {
+interface CanvasProps {
+  setCanvasRef: (ref: ReactSketchCanvasRef | null) => void; 
+  setLatex: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function DrawingCanvas({setCanvasRef, setLatex}: CanvasProps) {
     
     const canvasRef = useRef<ReactSketchCanvasRef | null>(null);
     const [strokeColor, setStrokeColor] = useState("#FFFFFF");
     useEffect(() => {
-        setCanvasRef(canvasRef);
+        setCanvasRef(canvasRef.current);
     }, [setCanvasRef])
 
     useEffect(() => {
@@ -73,6 +78,34 @@ export default function DrawingCanvas({setCanvasRef}: DrawingCanvasProps) {
         });
     };
 
+    const handleUpload = async (e: CanvasPath) => {
+
+        const payload = {
+        title: 'Learning React',
+        body: 'How to make a POST request.',
+        userId: 1,
+        };
+
+        try {
+            const response = await fetch('https://nlplatexparser.pythonanywhere.com/api/drawing', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json', // Signals you are sending JSON
+                },
+                body: JSON.stringify(payload), // Convert JS object to a string
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json(); // Parse response
+            setLatex(data.LaTeX);
+        } catch (error) {
+            alert(`Error: ${error.message}`);
+        }
+    }
+
     return (
         <>
             <div className="canvas-outer hide-scrollbar" id='canvas-outer'>
@@ -85,6 +118,7 @@ export default function DrawingCanvas({setCanvasRef}: DrawingCanvasProps) {
                     eraserWidth={20}
                     canvasColor="transparent"
                     style={{ border: "none" }}
+                    onStroke={handleUpload}
                 />
                 
             </div>
