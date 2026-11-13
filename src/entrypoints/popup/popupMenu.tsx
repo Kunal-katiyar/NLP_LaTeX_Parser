@@ -14,13 +14,29 @@ function AppMenu() {
 
 
     useEffect(() => {
+        const theme = window.matchMedia("(prefers-color-scheme: dark)");
+        const updateIcon = () => {
+          void browser.runtime.sendMessage({
+            type: "theme-changed",
+            dark: theme.matches,
+          });
+        };
+
+        updateIcon();
+        theme.addEventListener("change", updateIcon);
+
         void storage.getItem<boolean>(popupStorageKey).then((value) => {setIsOpen(value === true)})
+        
         storage.getItem<string>(strokeColorKey).then((val) => {
             if (val !== null) {
               if (colorInputRef.current) colorInputRef.current.value = val;
               updateStrokeColor(val);
             }
         });
+
+        return () => {
+          theme.removeEventListener("change", updateIcon);
+        };
     }, [])
 
     async function toggleCanvas() {

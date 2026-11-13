@@ -136,8 +136,8 @@ export default function DrawingBase({ popupStatus }: Readonly<{ popupStatus: boo
                             <button className="inner-btn" id="clear-canvas-btn" onClick={() => canvasRef?.resetCanvas()}><Trash color="#ffffff"/></button>
                             <button className="inner-btn" id="shrink-canvas-btn" onClick={async () => handleShrinkCanvas()}><Shrink color="#ffffff"/></button>
                             <button className="inner-btn" id="undo-action-btn" onClick={() => canvasRef?.undo()}><Undo color="#ffffff"/></button>
-                            <button className="inner-btn" id="pen-mode-btn" onClick={() => canvasRef?.eraseMode(false)}><Pen color="#ffffff"/></button>
-                            <button className="inner-btn" id="eraser-mode-btn" onClick={() => canvasRef?.eraseMode(true)}><Eraser color="#ffffff"/></button>
+                            <button className="inner-btn" id="pen-mode-btn" onClick={() => { canvasRef?.eraseMode(false); enablePenCursor(); }}><Pen color="#ffffff"/></button>
+                            <button className="inner-btn" id="eraser-mode-btn" onClick={() => { canvasRef?.eraseMode(true); enableEraserCursor(); }}><Eraser color="#ffffff"/></button>
                         </div>
                     </div>
                     <div className="canvas-scroll-area">
